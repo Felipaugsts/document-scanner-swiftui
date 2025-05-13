@@ -8,13 +8,15 @@
 import SwiftUI
 
 struct ListScanView: View {
-    let scans: [ScanData]
-    let toggleFavorite: (ScanData) -> Void
+    let scans: [ScanDataModel]
+    let deleteScan: (ScanDataModel) -> Void
     
     var body: some View {
         List {
             ForEach(scans) { scan in
-                NavigationLink(destination: DetailView(scan: scan, toggleFavorite: toggleFavorite)) {
+                NavigationLink(destination: DetailView(scan: scan, deleteScan: { scan in
+                    deleteScan(scan)
+                })) {
                     ScanListCell(scan: scan)
                 }
             }
@@ -24,11 +26,11 @@ struct ListScanView: View {
 }
 
 struct ScanListCell: View {
-    let scan: ScanData
+    let scan: ScanDataModel
     
     var body: some View {
         HStack(spacing: 15) {
-            Image(uiImage: scan.image)
+            Image(uiImage: convertDataToImage(scan.imageData))
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .frame(width: 80, height: 80)
@@ -41,7 +43,7 @@ struct ScanListCell: View {
                     .lineLimit(1)
                 
                 HStack {
-                    Label(scan.category.rawValue, systemImage: scan.category.icon)
+                    Label(scan.category, systemImage: scan.category)
                         .font(.caption)
                         .foregroundColor(.secondary)
                     
@@ -60,5 +62,9 @@ struct ScanListCell: View {
             Spacer()
         }
         .padding(.vertical, 5)
+    }
+    
+    func convertDataToImage(_ data: Data?) -> UIImage {
+        return UIImage(data: data ?? Data()) ?? UIImage()
     }
 }

@@ -4,7 +4,5 @@
 <dict>
 	<key>NSCameraReactionEffectGesturesEnabledDefault</key>
 	<true/>
-	<key>NSCameraUsageDescription</key>
-	<string>Preciso usar a camera</string>
 </dict>
 </plist>

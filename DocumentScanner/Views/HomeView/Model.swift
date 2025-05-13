@@ -6,23 +6,31 @@
 //
 
 import SwiftUI
+import SwiftData
+import Foundation
 
-struct ScanData: Identifiable, Equatable {
-    let id = UUID()
-    let image: UIImage
+@Model
+final class ScanDataModel {
+    var id: UUID
+    var imageData: Data?
     var title: String
-    var category: ScanCategory
+    var category: String
     var dateCreated: Date
-    var isFavorite: Bool = false
+    var isFavorite: Bool
     
-    static func == (lhs: ScanData, rhs: ScanData) -> Bool {
-        lhs.id == rhs.id
+    init(id: UUID = UUID(), imageData: Data? = nil, title: String, category: String, dateCreated: Date = Date(), isFavorite: Bool = false) {
+        self.id = id
+        self.imageData = imageData
+        self.title = title
+        self.category = category
+        self.dateCreated = dateCreated
+        self.isFavorite = isFavorite
     }
 }
 
 enum ScanCategory: String, CaseIterable, Identifiable {
     case document = "Document"
-    case receipt = "Receipt"
+//    case receipt = "Receipt"
 //    case note = "Note"
 //    case id = "ID"
     case other = "Other"
@@ -32,7 +40,7 @@ enum ScanCategory: String, CaseIterable, Identifiable {
     var icon: String {
         switch self {
         case .document: return "doc.text"
-        case .receipt: return "receipt"
+//        case .receipt: return "receipt"
 //        case .note: return "note.text"
 //        case .id: return "person.text.rectangle"
         case .other: return "doc"
